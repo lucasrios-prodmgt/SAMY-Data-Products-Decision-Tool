@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAMY Data Products — Which one should I use?</title>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --surface: #ffffff;
+    --surface-2: #f6f7fb;
+    --surface-3: #eef0f7;
+    --ink: #0b0f1a;
+    --ink-2: #4a5168;
+    --ink-3: #8a92a8;
+    --line: #e3e6ef;
+    --primary: #FF5D17;
+    --primary-ink: #ffffff;
+    --accent: #ffb000;
+    --good: #16a34a;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+
+    --q-market: #2c5cff;
+    --q-influencer: #8b5cf6;
+    --q-health: #14b8a6;
+    --q-perf: #f59e0b;
+
+    --radius: 14px;
+    --radius-lg: 22px;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 1px 1px rgba(15, 23, 42, .03);
+    --shadow-md: 0 6px 20px rgba(15, 23, 42, .06), 0 2px 6px rgba(15, 23, 42, .04);
+    --shadow-lg: 0 24px 60px rgba(15, 23, 42, .12), 0 6px 18px rgba(15, 23, 42, .06);
+    --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background: linear-gradient(180deg, #f8fafc 0%, #eef1f8 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* HEADER */
+  header.site {
+    background: var(--bg);
+    color: #fff;
+    padding: 28px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  header.site::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(800px 280px at 80% -20%, rgba(31, 59, 255, .35), transparent 60%),
+      radial-gradient(500px 200px at 10% 110%, rgba(255, 176, 0, .18), transparent 60%);
+    pointer-events: none;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #c8d0e5;
+    position: relative;
+  }
+  .brand-mark {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: inline-block;
+  }
+  h1.hero {
+    margin: 18px 0 6px;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: #fff;
+    position: relative;
+  }
+  h1.hero span.accent { color: var(--accent); }
+  p.lede {
+    margin: 0;
+    max-width: 720px;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #c8d0e5;
+    position: relative;
+  }
+
+  /* TABS */
+  nav.tabs {
+    margin: 30px 0 -28px;
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 8px;
+    display: inline-flex;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  nav.tabs button {
+    border: 0;
+    background: transparent;
+    color: var(--ink-2);
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    font-family: inherit;
+  }
+  nav.tabs button:hover { color: var(--ink); }
+  nav.tabs button.active {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  /* MAIN */
+  main {
+    padding: 56px 0 96px;
+  }
+  section.panel {
+    display: none;
+  }
+  section.panel.active {
+    display: block;
+    animation: fade .25s ease-out;
+  }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2.section-title {
+    font-size: 26px;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  p.section-sub {
+    margin: 0 0 28px;
+    color: var(--ink-2);
+    max-width: 680px;
+    line-height: 1.55;
+  }
+
+  /* WIZARD */
+  .wizard {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 36px 36px 32px;
+    border: 1px solid var(--line);
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    color: var(--ink-3);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .progress .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--surface-3);
+  }
+  .progress .dot.done { background: var(--primary); }
+  .progress .dot.current {
+    background: var(--ink);
+    box-shadow: 0 0 0 4px rgba(11, 15, 26, .08);
+  }
+
+  .question h3 {
+    font-size: 22px;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .question p.qhint {
+    margin: 0 0 24px;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  .options {
+    display: grid;
+    gap: 12px;
+  }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color .15s ease, transform .08s ease, box-shadow .15s ease;
+    font-family: inherit;
+    color: var(--ink);
+  }
+  .option:hover {
+    border-color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+  .option:active { transform: translateY(1px); }
+  .option .opt-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+  }
+  .option .opt-body strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .option .opt-body span {
+    color: var(--ink-2);
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+
+  .wiz-nav {
+    margin-top: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn {
+    border: 0;
+    border-radius: 12px;
+    padding: 11px 18px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    transition: transform .08s ease, background .15s ease;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-2);
+  }
+  .btn-ghost:hover { color: var(--ink); }
+  .btn-primary {
+    background: var(--ink);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1c2238; }
+
+  /* RESULT */
+  .result {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    padding: 36px;
+    box-shadow: var(--shadow-md);
+  }
+  .result-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .result-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface-3);
+    color: var(--ink-2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .result h3.product-name {
+    font-size: 32px;
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .result h3.product-name small {
+    display: block;
+    font-size: 14px;
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-top: 4px;
+    letter-spacing: 0;
+  }
+  .why {
+    background: var(--surface-2);
+    border-left: 3px solid var(--primary);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 20px 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 22px;
+  }
+  @media (max-width: 720px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+  .info-block h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+    font-weight: 700;
+  }
+  .info-block ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .info-block ul li { margin-bottom: 6px; }
+
+  .alt-products {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .alt-products h4 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink-3);
+    margin: 0 0 12px;
+    font-weight: 700;
+  }
+  .alt-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* QUICK MATCH */
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .quick-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: transform .12s ease, box-shadow .15s ease, border-color .15s ease;
+    cursor: pointer;
+  }
+  .quick-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--ink);
+  }
+  .quick-card .qc-need {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .quick-card .qc-arrow {
+    font-size: 20px;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+  .quick-card .qc-product {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .quick-card .qc-product small {
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+
+  /* PRODUCT INDEX */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 18px;
+  }
+  .product-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--quad-color, var(--primary));
+  }
+  .quad-tag {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--quad-bg, rgba(31,59,255,.08));
+    color: var(--quad-color, var(--primary));
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .product-card h3 {
+    margin: 0 0 4px;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+  }
+  .product-card .ab {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-weight: 500;
+    margin-bottom: 14px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .product-card p {
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .product-card .meta {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 12.5px;
+  }
+  .product-card .meta div span {
+    display: block;
+    color: var(--ink-3);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .product-card .meta div strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* MATRIX */
+  .matrix-wrap {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    box-shadow: var(--shadow-sm);
+  }
+  table.matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  table.matrix th, table.matrix td {
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  table.matrix thead th {
+    background: var(--surface-2);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--ink-3);
+    position: sticky;
+    top: 0;
+  }
+  table.matrix tbody tr:hover {
+    background: var(--surface-2);
+  }
+  table.matrix td.product {
+    font-weight: 700;
+    color: var(--ink);
+  }
+  table.matrix td.product small {
+    display: block;
+    font-weight: 500;
+    color: var(--ink-3);
+    font-size: 11.5px;
+    margin-top: 2px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .03em;
+  }
+  .badge.low { background: #dcfce7; color: #166534; }
+  .badge.med { background: #fef3c7; color: #92400e; }
+  .badge.high { background: #fee2e2; color: #991b1b; }
+
+  /* QUADRANT MAP */
+  .quad-map {
+    margin: 32px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 720px) {
+    .quad-map { grid-template-columns: 1fr; }
+  }
+  .quad {
+    border-radius: var(--radius);
+    padding: 22px;
+    border: 1px solid var(--line);
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .quad::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--qcolor);
+  }
+  .quad .qhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .quad h4 {
+    margin: 0;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .quad .qview {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+  }
+  .quad .qsub {
+    margin: 0 0 12px;
+    color: var(--ink-2);
+    font-size: 13.5px;
+  }
+  .quad .qprods {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .quad .qprods li {
+    font-size: 13.5px;
+    color: var(--ink);
+    padding: 6px 10px;
+    background: var(--surface-2);
+    border-radius: 8px;
+  }
+  .quad .qprods li strong { font-weight: 600; }
+
+  footer.site {
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 13px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    margin-top: 24px;
+  }
+
+  .restart {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding: 10px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .restart:hover { background: var(--surface-3); }
+
+  /* ICON SYSTEM — custom SVG glyphs */
+  .icon {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .icon-sm { width: 16px; height: 16px; }
+  .quick-card .qc-arrow { display: flex; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     ICON LIBRARY — custom geometric glyphs (24×24, 1.6 stroke)
+     Reused across the tool via <svg><use href="#i-…"/></svg>
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-7l-4 4v-4H6a2 2 0 0 1-2-2V6Z"/><circle cx="9" cy="10" r="0.9" fill="currentColor" stroke="none"/><circle cx="12" cy="10" r="0.9" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="0.9" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></symbol>
+    <symbol id="i-bars" viewBox="0 0 24 24"><line x1="3" y1="20" x2="21" y2="20"/><rect x="6" y="11" width="3" height="9" rx="0.5"/><rect x="11" y="6" width="3" height="14" rx="0.5"/><rect x="16" y="14" width="3" height="6" rx="0.5"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M3 14a9 9 0 0 1 18 0"/><line x1="3" y1="14" x2="6" y2="14"/><line x1="18" y1="14" x2="21" y2="14"/><line x1="12" y1="5" x2="12" y2="7"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.6" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.2"/><line x1="8" y1="7" x2="10" y2="7"/><line x1="14" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="10" y2="11"/><line x1="14" y1="11" x2="16" y2="11"/><path d="M10 21v-3h4v3"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 6h3v2a3 3 0 0 1-3 3"/><path d="M7 6H4v2a3 3 0 0 0 3 3"/><line x1="12" y1="14" x2="12" y2="18"/><path d="M9 21h6l-1-3h-4l-1 3Z"/></symbol>
+    <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><polygon points="13 2 4 14 11 14 10 22 19 10 12 10 13 2"/></symbol>
+    <symbol id="i-scope" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><line x1="15.6" y1="15.6" x2="20" y2="20"/><line x1="8" y1="11" x2="14" y2="11"/><line x1="11" y1="8" x2="11" y2="14"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="1" transform="rotate(-45 12 12)"/><line x1="9" y1="9" x2="11" y2="11"/><line x1="11" y1="7" x2="13" y2="9"/><line x1="13" y1="5" x2="15" y2="7"/></symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="6 13 12 19 18 13"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="11 6 5 12 11 18"/></symbol>
+    <symbol id="i-restart" viewBox="0 0 24 24"><polyline points="21 5 21 11 15 11"/><path d="M21 11A9 9 0 1 0 12 21"/></symbol>
+  </defs>
+</svg>
+
+<header class="site">
+  <div class="container">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span>SAMY · Data Products</span>
+    </div>
+    <h1 class="hero">Which data product should <span class="accent">I use?</span></h1>
+    <p class="lede">A guided decision tool for SAMY's seven data products. Answer a couple of questions and we'll point you at the right tool or browse the cheat sheet, full product index, or comparison matrix below.</p>
+
+    <nav class="tabs" role="tablist">
+      <button class="active" data-tab="wizard">Decision Wizard</button>
+      <button data-tab="quick">Quick Match</button>
+      <button data-tab="products">All Products</button>
+      <button data-tab="matrix">Compare</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- WIZARD -->
+    <section class="panel active" id="wizard">
+      <h2 class="section-title">Find your product in 1–2 questions</h2>
+      <p class="section-sub">Each question maps to a real research lens we get asked on repeat. The result includes why that product fits, what to prep, and alternatives if your scope shifts.</p>
+
+      <div class="wizard" id="wizardCard">
+        <div class="progress">
+          <span class="dot current" data-step="1"></span>
+          <span class="dot" data-step="2"></span>
+          <span class="dot" data-step="3"></span>
+          <span id="progressLabel">Step 1</span>
+        </div>
+        <div id="questionRoot"></div>
+      </div>
+    </section>
+
+    <!-- QUICK MATCH -->
+    <section class="panel" id="quick">
+      <h2 class="section-title">Quick match — common scenarios</h2>
+      <p class="section-sub">If you already know what you need, skip the wizard and pick the closest scenario. Click a card to see full product details.</p>
+
+      <div class="quick-grid" id="quickGrid"></div>
+
+      <h2 class="section-title" style="margin-top:48px;">The four research lenses</h2>
+      <p class="section-sub">The seven products map to four kinds of question we get asked on repeat — pick the lens that matches your brief, then narrow down.</p>
+
+      <div class="quad-map">
+        <div class="quad" style="--qcolor: var(--q-market);">
+          <div class="qhead"><h4>Market Position</h4><span class="qview">The macro view</span></div>
+          <p class="qsub">Where does the brand stand vs. competitors and the market?</p>
+          <ul class="qprods">
+            <li><strong>CAB</strong> — Brand-owned content vs. competitors</li>
+            <li><strong>Social Benchmarking Dashboard</strong> — Self-service KPI bands</li>
+          </ul>
+        </div>
+        <div class="quad" style="--qcolor: var(--q-influencer);">
+          <div class="qhead"><h4>Influencer Landscape</h4><span class="qview">The reach view</span></div>
+          <p class="qsub">Who's driving the conversation about the brand?</p>
+          <ul class="qprods">
+            <li><strong>CAI</strong> — Creator content competitive analysis</li>
+          </ul>
+        </div>
+        <div class="quad" style="--qcolor: var(--q-health);">
+          <div class="qhead"><h4>Brand Health &amp; Quality</h4><span class="qview">The sentiment view</span></div>
+          <p class="qsub">How is the brand perceived and what's the audience saying?</p>
+          <ul class="qprods">
+            <li><strong>SRS</strong> — Standardized 0–10,000 brand impact score</li>
+            <li><strong>SCL</strong> — Deep AI-powered qualitative analysis</li>
+            <li><strong>AI Sentiment Analysis</strong> — Comment-level sentiment scoring</li>
+          </ul>
+        </div>
+        <div class="quad" style="--qcolor: var(--q-perf);">
+          <div class="qhead"><h4>Performance Tracking</h4><span class="qview">The execution view</span></div>
+          <p class="qsub">How is a live campaign performing against plan?</p>
+          <ul class="qprods">
+            <li><strong>CAT</strong> — Live campaign performance, hourly sync</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="panel" id="products">
+      <h2 class="section-title">All seven data products</h2>
+      <p class="section-sub">Color-coded by research lens. Each card shows the question it answers, complexity, and turnaround time.</p>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <!-- MATRIX -->
+    <section class="panel" id="matrix">
+      <h2 class="section-title">Side-by-side comparison</h2>
+      <p class="section-sub">All seven products compared on input, output, complexity, setup time, and platform coverage.</p>
+      <div class="matrix-wrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Primary input</th>
+              <th>Key output</th>
+              <th>Platforms</th>
+              <th>Complexity</th>
+              <th>Setup time</th>
+            </tr>
+          </thead>
+          <tbody id="matrixBody"></tbody>
+        </table>
+      </div>
+
+      <h2 class="section-title" style="margin-top:48px;">Critical success factors</h2>
+      <p class="section-sub">Across every product, output quality is gated by input quality. Three things to get right before pressing go.</p>
+
+      <div class="grid-2">
+        <div class="info-block" style="background:#fff;padding:22px;border-radius:14px;border:1px solid var(--line);">
+          <h4>Keyword strategy</h4>
+          <ul>
+            <li>Use exact-match spellings — include common misspellings (e.g. "L'Orael", "Mecces").</li>
+            <li>Exclude generics (e.g. "dm", "opera") that produce false positives.</li>
+            <li>Direct impact on CAI and SRS Creators.</li>
+          </ul>
+        </div>
+        <div class="info-block" style="background:#fff;padding:22px;border-radius:14px;border:1px solid var(--line);">
+          <h4>Platform nuances</h4>
+          <ul>
+            <li>Instagram: Meta provides only ~25% of Shares, ~1% of Saves.</li>
+            <li>Stories: no historical retrieval — data starts when the account is linked.</li>
+            <li>IG views estimated at 40% (Feed) / 12% (Stories) when Meta blanks.</li>
+          </ul>
+        </div>
+        <div class="info-block" style="background:#fff;padding:22px;border-radius:14px;border:1px solid var(--line);">
+          <h4>Access protocol</h4>
+          <ul>
+            <li>Always log into Looker directly, not Looker Studio.</li>
+            <li>Permission errors? Open in a separate browser tab.</li>
+            <li>Access tickets via Tech – SAMY X Data Support.</li>
+          </ul>
+        </div>
+        <div class="info-block" style="background:#fff;padding:22px;border-radius:14px;border:1px solid var(--line);">
+          <h4>Mature post standard</h4>
+          <ul>
+            <li>Posts are considered mature after 15 full days from posting.</li>
+            <li>Below 15 days, key metrics are too volatile for reliable analysis.</li>
+            <li>Standard applied across SBD, SRS, CAB and CAI.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="container">
+    Need data support? Reach the Data Team via Slack · Tool access issues? Tech – SAMY X Data Support · Source: Data Products Documentation v1.0, April 2026
+  </div>
+</footer>
+
+<script>
+/* =========================
+   PRODUCT DATA
+   ========================= */
+const PRODUCTS = {
+  SBD: {
+    name: "Social Benchmarking Dashboard",
+    abbr: "SBD",
+    quadrant: "market",
+    quadrantLabel: "Market Position",
+    question: "What's the realistic KPI band for this brand, country, platform?",
+    description: "Self-service Looker dashboard for instant, customizable social media benchmarks across countries, industries, follower tiers, and platforms.",
+    primaryInput: "Brand & creator assets (already in BigQuery)",
+    keyOutput: "Self-service benchmarks, exportable to PDF/CSV",
+    platforms: "TikTok · Instagram · YouTube",
+    complexity: "low",
+    setupTime: "Immediate (dashboard access)",
+    bestFor: [
+      "Pitch-deck KPI bands by country/industry/follower tier",
+      "Identifying over- and under-performing creators",
+      "Setting data-backed performance targets"
+    ],
+    notFor: [
+      "Deep qualitative or semantic analysis",
+      "Single composite score across platforms",
+      "Per-comment sentiment classification"
+    ],
+    nextSteps: [
+      "Open the Social Benchmarking Dashboard in Looker",
+      "Configure top-bar filters (date, country, follower band, platform)",
+      "Click 'Reload' and review the Key Metrics section",
+      "Export to PDF or CSV when ready"
+    ]
+  },
+  CAB: {
+    name: "Competitor Analysis — Brands",
+    abbr: "CAB",
+    quadrant: "market",
+    quadrantLabel: "Market Position",
+    question: "Where are we losing to competitors on owned content?",
+    description: "Standing dashboard for head-to-head comparison of your owned brand content against direct competitors on TikTok and Instagram.",
+    primaryInput: "Owned brand & competitor profiles (must exist in Maia/Intermate)",
+    keyOutput: "Looker dashboard + PDF export with quantitative benchmarks",
+    platforms: "TikTok · Instagram (YouTube in flight)",
+    complexity: "med",
+    setupTime: "2–5 days (data verification)",
+    bestFor: [
+      "Owned-content competitive benchmarking",
+      "Identifying positioning gaps and content-format opportunities",
+      "Monitoring follower growth and engagement trends vs. competitors"
+    ],
+    notFor: [
+      "Influencer/creator content (use CAI)",
+      "YouTube coverage (not yet supported)",
+      "Historical Instagram Stories"
+    ],
+    nextSteps: [
+      "Define main brand and direct competitors with the client",
+      "Verify all accounts exist in Intermate; add missing ones",
+      "Enter accounts and timeframe in the CAB dashboard",
+      "Export results and write learnings + action points"
+    ]
+  },
+  CAI: {
+    name: "Competitor Analysis — Influencers",
+    abbr: "CAI",
+    quadrant: "influencer",
+    quadrantLabel: "Influencer Landscape",
+    question: "Who are the creators talking about us — and about them?",
+    description: "Asset-level dashboard exposing influencer activity for your brand and its competitors. Reveals which creators drive brand empowerment.",
+    primaryInput: "Creator content from Maia content filter (CSV)",
+    keyOutput: "Looker dashboard + exports, organized by brand and creator",
+    platforms: "TikTok · Instagram",
+    complexity: "high",
+    setupTime: "3–7 days (keyword prep)",
+    bestFor: [
+      "Identifying top-performing influencers per brand",
+      "Sponsored vs. organic split analysis",
+      "Spotting partnership gaps in the competitive set"
+    ],
+    notFor: [
+      "Brand-owned content performance (use CAB)",
+      "Sales or conversion attribution",
+      "Quick ad-hoc benchmarks (use SBD)"
+    ],
+    nextSteps: [
+      "Build comprehensive keyword lists (incl. misspellings, exclude generics)",
+      "Apply 'creators only' filter in Maia content filter",
+      "Download separate CSVs per brand, combine in CAI template",
+      "Upload to CAI tool, await dashboard email"
+    ]
+  },
+  SRS: {
+    name: "Social Relevance Score",
+    abbr: "SRS",
+    quadrant: "health",
+    quadrantLabel: "Brand Health & Quality",
+    question: "What is our high-level, cross-platform impact score?",
+    description: "Composite index turning likes, comments, shares, saves and sentiment into a single transparent 0–10,000 score. Modeled on OECD/UNDP composite-index methodology.",
+    primaryInput: "Brand profiles (SRS Brands) or brand keywords (SRS Creators)",
+    keyOutput: "Excel + Looker dashboard, monthly score across 8 dimensions",
+    platforms: "Instagram · TikTok",
+    complexity: "med",
+    setupTime: "Up to 48 hours (processing)",
+    bestFor: [
+      "Cross-platform, cross-industry brand comparison",
+      "Monthly brand-health tracking with a single number",
+      "Drill-down into 8 dimensions to root-cause shifts"
+    ],
+    notFor: [
+      "Real-time / hourly tracking (use CAT)",
+      "Deep qualitative themes (use SCL)",
+      "Single ad-hoc benchmark (use SBD)"
+    ],
+    nextSteps: [
+      "Choose SRS Brands, SRS Creators, or both",
+      "Get the request template from Google Drive",
+      "Add profile links or brand keywords + product keywords for sentiment",
+      "Submit via Maia/Intermate, results via email in up to 48h"
+    ]
+  },
+  SCL: {
+    name: "Social-Community Listening",
+    abbr: "SCL",
+    quadrant: "health",
+    quadrantLabel: "Brand Health & Quality",
+    question: "What are audiences actually saying, and what do they believe?",
+    description: "AI-powered qualitative framework. 14 standardized questions applied consistently across captions, subtitles and comments, with expert verification on top.",
+    primaryInput: "Comments / captions exported as CSV (≤30MB per file)",
+    keyOutput: "Custom report — themes, pain points, praise, wishes, myths",
+    platforms: "TikTok · Instagram · YouTube · Custom",
+    complexity: "high",
+    setupTime: "1–2 weeks (custom analysis)",
+    bestFor: [
+      "Deep qualitative audience understanding",
+      "Surfacing wishes, criticisms, praise and myths",
+      "Identifying competitor mentions in conversations"
+    ],
+    notFor: [
+      "Push-button automated reports (requires expert verification)",
+      "Single quantitative score (use SRS or AI Sentiment)",
+      "Real-time tracking"
+    ],
+    nextSteps: [
+      "Define objectives and pick scope (creator posts vs. brand comments)",
+      "Export from content filter or request from Data Team",
+      "Run Langdock Assistant with the 14 standardized questions",
+      "Verify AI findings against raw data and write up the report"
+    ]
+  },
+  SENT: {
+    name: "AI Sentiment Analysis Tool",
+    abbr: "AI Sentiment",
+    quadrant: "health",
+    quadrantLabel: "Brand Health & Quality",
+    question: "How is this audience responding, at scale, right now?",
+    description: "Push-button multilingual sentiment scoring. Each comment tagged –1.0 to +1.0 with explicit Negative / Neutral / Positive thresholds.",
+    primaryInput: ".xlsx or .csv file with 'Comments' or 'Post Links' column",
+    keyOutput: "Excel file with sentiment column delivered by email",
+    platforms: "TikTok · Instagram (per upload)",
+    complexity: "low",
+    setupTime: "Minutes (file upload)",
+    bestFor: [
+      "Campaign feedback at scale",
+      "Crisis detection through negative-sentiment spikes",
+      "Quick community-mood reads on a launch"
+    ],
+    notFor: [
+      "Theme/topic discovery (use SCL)",
+      "Composite brand-health score (use SRS)",
+      "Owned vs. competitor benchmarking"
+    ],
+    nextSteps: [
+      "Prepare .xlsx/.csv with 'Comments' or 'Post Links' column (exact)",
+      "Open AI Sentiment Analysis tool in Maia",
+      "Upload file and provide email for delivery",
+      "Receive scored Excel by email"
+    ]
+  },
+  CAT: {
+    name: "Campaign Analysis Tool",
+    abbr: "CAT",
+    quadrant: "perf",
+    quadrantLabel: "Performance Tracking",
+    question: "Is the campaign hitting targets — today, not next week?",
+    description: "Looker dashboard with hourly sync of campaign assets and planned-vs-actual reconciliation against campaign-manager inputs.",
+    primaryInput: "Campaign Manager entries (live, hourly sync)",
+    keyOutput: "Looker dashboard with planned-vs-actual, top/low performers",
+    platforms: "TikTok · Instagram (campaign-specific)",
+    complexity: "low",
+    setupTime: "Immediate (dashboard access)",
+    bestFor: [
+      "Live campaign performance tracking",
+      "Quarterly and yearly client recaps with multiple campaigns",
+      "Identifying top vs. low-performing influencers in-flight"
+    ],
+    notFor: [
+      "Brand health outside campaign windows",
+      "Qualitative analysis of comments",
+      "Cross-brand competitive comparison"
+    ],
+    nextSteps: [
+      "Confirm Campaign Manager entries are accurate (input quality = output quality)",
+      "Open CAT at app.intermate.de/utilities/campaign-analysis",
+      "Select campaign(s) and review planned vs. actual",
+      "Export reports for stakeholder updates"
+    ]
+  }
+};
+
+const QUAD_STYLE = {
+  market:     { color: 'var(--q-market)',     bg: 'rgba(44, 92, 255, .10)' },
+  influencer: { color: 'var(--q-influencer)', bg: 'rgba(139, 92, 246, .10)' },
+  health:     { color: 'var(--q-health)',     bg: 'rgba(20, 184, 166, .12)' },
+  perf:       { color: 'var(--q-perf)',       bg: 'rgba(245, 158, 11, .14)' }
+};
+
+/* =========================
+   QUICK-MATCH SCENARIOS
+   ========================= */
+const QUICK = [
+  { need: "Quick industry / market benchmarks for pitch decks", product: "SBD" },
+  { need: "Single metric to compare brand social relevance", product: "SRS" },
+  { need: "Understand what people are saying about a brand", product: "SCL" },
+  { need: "Compare your brand vs. competitors on owned social", product: "CAB" },
+  { need: "Analyze how influencers talk about brands", product: "CAI" },
+  { need: "Classify comment sentiment at scale", product: "SENT" },
+  { need: "Track ongoing campaign performance live", product: "CAT" },
+  { need: "Monthly brand-health tracking", product: "SRS" },
+  { need: "Find top-performing content types", product: "SBD" },
+  { need: "Identify influencer partnership opportunities", product: "CAI" },
+  { need: "Crisis detection through negative sentiment spikes", product: "SENT" },
+  { need: "Set realistic KPI targets for a brief", product: "SBD" }
+];
+
+/* =========================
+   DECISION TREE
+   ========================= */
+const TREE = {
+  start: {
+    question: "What do you need to figure out?",
+    hint: "Pick the closest fit — we'll narrow down in the next step if needed.",
+    options: [
+      { icon: "i-target",   label: "How my brand performs vs. competitors", hint: "Owned content, influencer share of voice, or a single comparable score.", next: "compete" },
+      { icon: "i-chat",     label: "What audiences are saying or feeling", hint: "Themes, pain points, sentiment, community mood.", next: "audience" },
+      { icon: "i-trend",    label: "How a live campaign is performing", hint: "Plan vs. actual, top/low performers, real-time view.", result: "CAT" },
+      { icon: "i-bars",     label: "Realistic KPI bands for a pitch or plan", hint: "Self-service benchmarks by country, industry, follower tier.", result: "SBD" },
+      { icon: "i-gauge",    label: "A single number for cross-platform brand impact", hint: "0–10,000 standardized score, monthly cadence.", result: "SRS" }
+    ]
+  },
+  compete: {
+    question: "Competitive comparison — what's the focus?",
+    hint: "Same brand, three angles. The right one depends on whether you care about owned, earned, or aggregated performance.",
+    options: [
+      { icon: "i-building", label: "Owned brand content (their accounts vs. ours)", hint: "Volume, formats, engagement, follower growth.", result: "CAB" },
+      { icon: "i-mic",      label: "Influencer / creator content mentioning brands", hint: "Share of voice, sponsored vs. organic, top creators per brand.", result: "CAI" },
+      { icon: "i-trophy",   label: "Standardized score across brands", hint: "One composite number on the same scale, drillable to 8 dimensions.", result: "SRS" },
+      { icon: "i-compass",  label: "Just open benchmarks / KPI bands", hint: "I want to explore freely, not run a competitor study.", result: "SBD" }
+    ]
+  },
+  audience: {
+    question: "Audience insights — how deep do you need to go?",
+    hint: "Trade-off between push-button speed and qualitative depth.",
+    options: [
+      { icon: "i-bolt",     label: "Just classify comments as positive / negative / neutral", hint: "Fast, scalable, results in minutes by email.", result: "SENT" },
+      { icon: "i-scope",    label: "Deep themes, pain points, wishes, myths, comparisons", hint: "AI-assisted qualitative framework, expert-verified.", result: "SCL" },
+      { icon: "i-ruler",    label: "Brand-level sentiment as part of a composite score", hint: "Sentiment is one of 8 dimensions in this product.", result: "SRS" }
+    ]
+  }
+};
+
+/* =========================
+   RENDER: WIZARD
+   ========================= */
+const root = document.getElementById('questionRoot');
+const dots = document.querySelectorAll('.progress .dot');
+const progressLabel = document.getElementById('progressLabel');
+let history = [];
+let currentNode = 'start';
+
+function setProgress(step) {
+  dots.forEach((d, i) => {
+    d.classList.remove('done', 'current');
+    if (i < step - 1) d.classList.add('done');
+    else if (i === step - 1) d.classList.add('current');
+  });
+  progressLabel.textContent = `Step ${step}`;
+}
+
+function renderQuestion(nodeKey) {
+  const node = TREE[nodeKey];
+  if (!node) return;
+  currentNode = nodeKey;
+  setProgress(history.length + 1);
+
+  let html = `
+    <div class="question">
+      <h3>${node.question}</h3>
+      <p class="qhint">${node.hint}</p>
+      <div class="options">
+        ${node.options.map((opt, i) => `
+          <button class="option" data-idx="${i}">
+            <span class="opt-icon"><svg class="icon"><use href="#${opt.icon}"/></svg></span>
+            <span class="opt-body">
+              <strong>${opt.label}</strong>
+              <span>${opt.hint}</span>
+            </span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="wiz-nav">
+        <button class="btn btn-ghost" id="backBtn" style="display:inline-flex;align-items:center;gap:6px;${history.length === 0 ? 'visibility:hidden;' : ''}">
+          <svg class="icon icon-sm"><use href="#i-arrow-left"/></svg> Back
+        </button>
+        <span style="color:var(--ink-3);font-size:13px;">${history.length === 0 ? 'Pick the closest fit' : 'Almost there'}</span>
+      </div>
+    </div>
+  `;
+  root.innerHTML = html;
+
+  root.querySelectorAll('.option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = +btn.dataset.idx;
+      const opt = node.options[idx];
+      history.push(nodeKey);
+      if (opt.result) {
+        renderResult(opt.result);
+      } else if (opt.next) {
+        renderQuestion(opt.next);
+      }
+    });
+  });
+
+  const backBtn = document.getElementById('backBtn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      const prev = history.pop();
+      if (prev) renderQuestion(prev);
+    });
+  }
+}
+
+function renderResult(productKey) {
+  const p = PRODUCTS[productKey];
+  setProgress(3);
+
+  // Find adjacent products in same quadrant
+  const alts = Object.entries(PRODUCTS)
+    .filter(([k, v]) => v.quadrant === p.quadrant && k !== productKey)
+    .map(([k, v]) => v);
+
+  const style = QUAD_STYLE[p.quadrant];
+
+  root.innerHTML = `
+    <div class="result">
+      <div class="result-head">
+        <span class="result-tag" style="background:${style.bg};color:${style.color};">${p.quadrantLabel}</span>
+        <span class="result-tag">Recommended</span>
+      </div>
+      <h3 class="product-name">${p.name}<small>${p.abbr} · "${p.question}"</small></h3>
+      <div class="why">
+        <strong>Why this product:</strong> ${p.description}
+      </div>
+      <div class="grid-2">
+        <div class="info-block">
+          <h4>Best for</h4>
+          <ul>${p.bestFor.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>
+        <div class="info-block">
+          <h4>Not the right fit if you need</h4>
+          <ul>${p.notFor.map(b => `<li>${b}</li>`).join('')}</ul>
+        </div>
+        <div class="info-block">
+          <h4>Inputs &amp; output</h4>
+          <ul>
+            <li><strong>Input:</strong> ${p.primaryInput}</li>
+            <li><strong>Output:</strong> ${p.keyOutput}</li>
+            <li><strong>Platforms:</strong> ${p.platforms}</li>
+            <li><strong>Setup time:</strong> ${p.setupTime}</li>
+          </ul>
+        </div>
+        <div class="info-block">
+          <h4>Next steps</h4>
+          <ul>${p.nextSteps.map((s, i) => `<li>${s}</li>`).join('')}</ul>
+        </div>
+      </div>
+      ${alts.length ? `
+        <div class="alt-products">
+          <h4>Adjacent products in the same lens</h4>
+          <div class="alt-list">
+            ${alts.map(a => `<span class="pill"><strong>${a.abbr}</strong> · ${a.question}</span>`).join('')}
+          </div>
+        </div>` : ''}
+      <button class="restart" id="restartBtn"><svg class="icon icon-sm"><use href="#i-restart"/></svg> Start over</button>
+    </div>
+  `;
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    history = [];
+    renderQuestion('start');
+  });
+}
+
+/* =========================
+   RENDER: QUICK GRID
+   ========================= */
+function renderQuick() {
+  const grid = document.getElementById('quickGrid');
+  grid.innerHTML = QUICK.map(item => {
+    const p = PRODUCTS[item.product];
+    const style = QUAD_STYLE[p.quadrant];
+    return `
+      <div class="quick-card" data-product="${item.product}">
+        <div class="qc-need">${item.need}</div>
+        <div class="qc-arrow"><svg class="icon"><use href="#i-arrow-down"/></svg></div>
+        <div class="qc-product" style="color:${style.color};">${p.name} <small>· ${p.abbr}</small></div>
+      </div>
+    `;
+  }).join('');
+
+  grid.querySelectorAll('.quick-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const productKey = card.dataset.product;
+      activateTab('wizard');
+      history = ['start'];
+      renderResult(productKey);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+/* =========================
+   RENDER: PRODUCT INDEX
+   ========================= */
+function renderProducts() {
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = Object.entries(PRODUCTS).map(([k, p]) => {
+    const style = QUAD_STYLE[p.quadrant];
+    return `
+      <div class="product-card" style="--quad-color:${style.color};--quad-bg:${style.bg};">
+        <span class="quad-tag">${p.quadrantLabel}</span>
+        <h3>${p.name}</h3>
+        <div class="ab">${p.abbr}</div>
+        <p>${p.description}</p>
+        <div class="meta">
+          <div><span>Input</span><strong>${p.primaryInput.split(' (')[0]}</strong></div>
+          <div><span>Output</span><strong>${p.keyOutput.split(',')[0]}</strong></div>
+          <div><span>Setup</span><strong>${p.setupTime.split(' (')[0]}</strong></div>
+          <div><span>Complexity</span><strong><span class="badge ${p.complexity}">${p.complexity.toUpperCase()}</span></strong></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* =========================
+   RENDER: MATRIX
+   ========================= */
+function renderMatrix() {
+  const body = document.getElementById('matrixBody');
+  body.innerHTML = Object.entries(PRODUCTS).map(([k, p]) => `
+    <tr>
+      <td class="product">${p.name}<small>${p.abbr}</small></td>
+      <td>${p.primaryInput}</td>
+      <td>${p.keyOutput}</td>
+      <td>${p.platforms}</td>
+      <td><span class="badge ${p.complexity}">${p.complexity.toUpperCase()}</span></td>
+      <td>${p.setupTime}</td>
+    </tr>
+  `).join('');
+}
+
+/* =========================
+   TABS
+   ========================= */
+function activateTab(name) {
+  document.querySelectorAll('nav.tabs button').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === name);
+  });
+  document.querySelectorAll('section.panel').forEach(p => {
+    p.classList.toggle('active', p.id === name);
+  });
+}
+document.querySelectorAll('nav.tabs button').forEach(b => {
+  b.addEventListener('click', () => activateTab(b.dataset.tab));
+});
+
+/* =========================
+   INIT
+   ========================= */
+renderQuestion('start');
+renderQuick();
+renderProducts();
+renderMatrix();
+</script>
+</body>
+</html>
