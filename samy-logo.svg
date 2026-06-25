@@ -1,0 +1,15 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF5D17"/>
+      <stop offset="1" stop-color="#FFB000"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="120" ry="120" fill="url(#g)"/>
+  <!-- three-spoke junction mark -->
+  <g stroke="#0b0f1a" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M256 276 L256 118"/>
+    <path d="M256 276 L114 394"/>
+    <path d="M256 276 L398 394"/>
+  </g>
+</svg>
