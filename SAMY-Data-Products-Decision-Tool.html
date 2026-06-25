@@ -601,7 +601,122 @@
     vertical-align: middle;
   }
   .icon-sm { width: 16px; height: 16px; }
+
+  /* ===== LOGIN GATE ===== */
+  /* Hide the app until the user is authenticated */
+  body:not(.authenticated) #app-root { display: none; }
+  body:not(.authenticated) { overflow: hidden; }
+
+  #login-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(255,93,23,.25), transparent 60%),
+      linear-gradient(180deg, #0b0f1a 0%, #11162a 100%);
+  }
+  body.authenticated #login-gate { display: none; }
+
+  .login-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 40px 34px 32px;
+    text-align: center;
+  }
+  .login-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .login-brand .brand-mark {
+    width: 22px; height: 22px; border-radius: 7px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: inline-block;
+  }
+  .login-card h2 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .login-card p.sub {
+    margin: 0 0 26px;
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  #google-btn { display: flex; justify-content: center; min-height: 44px; }
+  .login-domain {
+    margin-top: 22px;
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+  .login-domain code {
+    background: var(--surface-3);
+    padding: 1px 6px;
+    border-radius: 6px;
+    color: var(--ink-2);
+  }
+  .login-error {
+    display: none;
+    margin-top: 18px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    background: #fdecec;
+    border: 1px solid #f5c2c2;
+    color: #b42318;
+    font-size: 13.5px;
+    text-align: left;
+  }
+  .login-error.show { display: block; }
+  .login-config-note {
+    display: none;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #9a6a00;
+    background: #fff7e6;
+    border: 1px solid #ffe2a8;
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-align: left;
+  }
+  .login-config-note.show { display: block; }
+
+  /* Signed-in chip in header */
+  .auth-chip {
+    position: absolute;
+    top: 18px; right: 24px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #fff;
+    z-index: 50;
+  }
+  body.authenticated .auth-chip { display: inline-flex; }
+  .auth-chip img { width: 26px; height: 26px; border-radius: 50%; }
+  .auth-chip button {
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .auth-chip button:hover { background: rgba(255,255,255,.22); }
 </style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -624,8 +739,33 @@
   </defs>
 </svg>
 
+<!-- ===== LOGIN GATE (shown until an @samy.com Google account signs in) ===== -->
+<div id="login-gate" role="dialog" aria-modal="true" aria-label="Sign in to continue">
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="brand-mark"></span>
+      <span>SAMY · Data Products</span>
+    </div>
+    <h2>Sign in to continue</h2>
+    <p class="sub">This tool is restricted to SAMY team members.</p>
+    <div id="google-btn"></div>
+    <p class="login-domain">Access limited to <code>@samy.com</code> accounts</p>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-config-note" id="login-config-note">
+      Google Sign-In isn't configured yet. Add your OAuth Client ID to <code>GOOGLE_CLIENT_ID</code> in this file. See SETUP.md.
+    </div>
+  </div>
+</div>
+
+<div id="app-root">
+
 <header class="site">
   <div class="container">
+    <div class="auth-chip" id="auth-chip">
+      <img id="auth-avatar" alt="" src="" />
+      <span id="auth-email"></span>
+      <button type="button" id="auth-signout">Sign out</button>
+    </div>
     <div class="brand">
       <span class="brand-mark"></span>
       <span>SAMY · Data Products</span>
@@ -768,6 +908,148 @@
     Need data support? Reach the Data Team via Slack · Tool access issues? Tech – SAMY X Data Support · Source: Data Products Documentation v1.0, April 2026
   </div>
 </footer>
+
+</div><!-- /#app-root -->
+
+<!-- ===== AUTH: Google Sign-In gated to the @samy.com domain ===== -->
+<script>
+(function () {
+  /* ─────────────────────────────────────────────────────────────
+     CONFIG — paste your Google OAuth Client ID here.
+     Create it at https://console.cloud.google.com/apis/credentials
+     (OAuth 2.0 Client ID, type "Web application"). See SETUP.md.
+     ───────────────────────────────────────────────────────────── */
+  const GOOGLE_CLIENT_ID = "743993949145-upra5m9ajpou5hs3ll6mg9kcu23l6233.apps.googleusercontent.com";
+
+  // Only accounts in this Google Workspace domain may enter.
+  const ALLOWED_DOMAIN = "samy.com";
+  const SESSION_KEY = "samy_dpdt_session";
+
+  const errorEl   = document.getElementById("login-error");
+  const configEl  = document.getElementById("login-config-note");
+
+  function showError(msg) {
+    errorEl.textContent = msg;
+    errorEl.classList.add("show");
+  }
+  function clearError() {
+    errorEl.textContent = "";
+    errorEl.classList.remove("show");
+  }
+
+  // Decode a JWT payload (no verification — display/gating only on the client).
+  function decodeJwt(token) {
+    try {
+      const part = token.split(".")[1];
+      const json = atob(part.replace(/-/g, "+").replace(/_/g, "/"));
+      return JSON.parse(decodeURIComponent(escape(json)));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function grantAccess(profile) {
+    document.body.classList.add("authenticated");
+    const avatar = document.getElementById("auth-avatar");
+    const email  = document.getElementById("auth-email");
+    if (profile.picture) { avatar.src = profile.picture; avatar.style.display = ""; }
+    else { avatar.style.display = "none"; }
+    email.textContent = profile.email || "";
+  }
+
+  function signOut() {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.disableAutoSelect();
+    }
+    // Reload to re-show the login gate cleanly.
+    location.reload();
+  }
+  window.samySignOut = signOut;
+
+  // Validate the signed-in identity against the allowed domain.
+  function handleCredential(response) {
+    clearError();
+    const claims = decodeJwt(response.credential);
+    if (!claims) { showError("Sign-in failed. Please try again."); return; }
+
+    const email = (claims.email || "").toLowerCase();
+    const hd = (claims.hd || "").toLowerCase();
+    const domainOk = hd === ALLOWED_DOMAIN || email.endsWith("@" + ALLOWED_DOMAIN);
+
+    if (!claims.email_verified) {
+      showError("Your Google email isn't verified. Use your SAMY account.");
+      return;
+    }
+    if (!domainOk) {
+      showError("Access is restricted to @" + ALLOWED_DOMAIN + " accounts. You're signed in as " + (email || "an unknown account") + ".");
+      if (window.google && google.accounts && google.accounts.id) {
+        google.accounts.id.disableAutoSelect();
+      }
+      return;
+    }
+
+    const profile = {
+      email: email,
+      name: claims.name || "",
+      picture: claims.picture || "",
+      ts: Date.now()
+    };
+    try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(profile)); } catch (e) {}
+    grantAccess(profile);
+  }
+
+  // Restore an existing session on reload (same tab) so users aren't re-prompted.
+  function restoreSession() {
+    try {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return false;
+      const p = JSON.parse(raw);
+      const email = (p.email || "").toLowerCase();
+      if (email.endsWith("@" + ALLOWED_DOMAIN)) { grantAccess(p); return true; }
+    } catch (e) {}
+    return false;
+  }
+
+  function initGoogle() {
+    const notConfigured = GOOGLE_CLIENT_ID.indexOf("YOUR_GOOGLE_CLIENT_ID") === 0;
+    if (notConfigured) {
+      configEl.classList.add("show");
+      return;
+    }
+    if (!(window.google && google.accounts && google.accounts.id)) {
+      // GIS script not loaded yet — retry shortly.
+      setTimeout(initGoogle, 200);
+      return;
+    }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleCredential,
+      hd: ALLOWED_DOMAIN,          // hint Google to show @samy.com accounts
+      auto_select: false,
+      cancel_on_tap_outside: true
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-btn"),
+      { theme: "filled_blue", size: "large", text: "signin_with", shape: "pill", width: 300 }
+    );
+    // Optional One Tap prompt.
+    google.accounts.id.prompt();
+  }
+
+  function start() {
+    document.getElementById("auth-signout").addEventListener("click", signOut);
+    if (restoreSession()) return;   // already signed in this session
+    initGoogle();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})();
+</script>
 
 <script>
 /* =========================
