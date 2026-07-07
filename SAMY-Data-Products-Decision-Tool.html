@@ -731,23 +731,26 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-top: 4px;
+    margin-top: 8px;
     padding: 14px 24px;
-    background: var(--ink, #0a0a1a);
-    color: #fff;
+    background: #fff;
+    color: var(--ink, #0a0a1a);
     font-weight: 600;
     border-radius: 999px;
     text-decoration: none;
-    transition: transform 0.15s ease, opacity 0.15s ease;
+    border: 1px solid var(--line, #e2e4ea);
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
   }
   
   .doc-link-cta:hover {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
     transform: translateY(-1px);
-    opacity: 0.9;
   }
   
   .doc-link-cta:focus-visible {
-    outline: 2px solid var(--q-market, #4361ee);
+    outline: 2px solid #2563eb;
     outline-offset: 3px;
   }
   
