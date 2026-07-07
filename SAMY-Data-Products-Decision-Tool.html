@@ -715,6 +715,35 @@
     cursor: pointer;
   }
   .auth-chip button:hover { background: rgba(255,255,255,.22); }
+
+  .doc-link-block {
+    margin-top: 48px;
+  }
+  
+  .doc-link-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 14px 24px;
+    background: var(--ink, #0a0a1a);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+  
+  .doc-link-cta:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+  
+  .doc-link-cta:focus-visible {
+    outline: 2px solid var(--q-market, #4361ee);
+    outline-offset: 3px;
+  }
+  
 </style>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -836,6 +865,15 @@
             <li><strong>CAT</strong> — Live campaign performance, hourly sync</li>
           </ul>
         </div>
+      </div>
+
+      <div class="doc-link-block">
+        <h2 class="section-title">Detailed Product Documentation</h2>
+        <p class="section-sub">Click here to access each product's documentation individually in detail</p>
+        <a href="https://drive.google.com/drive/folders/1pZmZq2nx8EirAh-SJV55qz7H8RNd3m2p?usp=drive_link" target="_blank" rel="noopener noreferrer" class="doc-link-cta">
+          Open documentation folder
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
 
       <h2 class="section-title" style="margin-top:48px;">All seven data products</h2>
