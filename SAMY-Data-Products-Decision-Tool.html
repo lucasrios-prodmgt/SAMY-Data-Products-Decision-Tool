@@ -1561,5 +1561,45 @@ renderQuestion('start');
 renderProducts();
 renderMatrix();
 </script>
+
+<!-- Floating Help Bot button -->
+<a href="https://samy.enterprise.slack.com/docs/T13GNTVT7/F0BFYS5CBPY"
+   target="_blank" rel="noopener noreferrer"
+   class="help-fab" aria-label="Ask the Help Bot anything">
+  <span class="help-fab__icon" aria-hidden="true">?</span>
+  <span class="help-fab__tip">Ask the Help Bot anything</span>
+</a>
+<style>
+  .help-fab {
+    position: fixed; right: 28px; bottom: 28px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--ink, #0b0f1a); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; box-shadow: 0 6px 20px rgba(11,15,26,.28);
+    z-index: 1000;
+    transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .help-fab:hover, .help-fab:focus-visible {
+    background: var(--primary, #FF5D17); transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(255,93,23,.40); text-decoration: none; outline: none;
+  }
+  .help-fab__icon { font-size: 27px; font-weight: 700; line-height: 1; font-family: inherit; }
+  .help-fab__tip {
+    position: absolute; right: calc(100% + 14px); top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    background: #33302e; color: #fff; font-size: 13px; font-weight: 600;
+    white-space: nowrap; padding: 8px 12px; border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(11,15,26,.20);
+    opacity: 0; pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .help-fab:hover .help-fab__tip, .help-fab:focus-visible .help-fab__tip {
+    opacity: 1; transform: translateY(-50%) translateX(0);
+  }
+  @media (max-width: 640px) {
+    .help-fab { right: 18px; bottom: 18px; width: 54px; height: 54px; }
+  }
+</style>
+
 </body>
 </html>
