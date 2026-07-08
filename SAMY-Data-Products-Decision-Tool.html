@@ -372,6 +372,8 @@
     flex-wrap: wrap;
   }
   .pill {
+    display: inline-flex;
+    align-items: center;
     padding: 8px 12px;
     border-radius: 999px;
     background: var(--surface-2);
@@ -379,7 +381,22 @@
     color: var(--ink-2);
     font-size: 13px;
     font-weight: 500;
+    font-family: inherit;
+    text-align: left;
+    text-decoration: none;
   }
+  .pill strong { color: var(--ink); }
+  .pill-link {
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .pill-link:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .pill-link:hover strong { color: #fff; }
 
   /* PRODUCT INDEX */
   .product-grid {
@@ -1354,6 +1371,9 @@ const progressLabel = document.getElementById('progressLabel');
 let history = [];
 let currentNode = 'start';
 
+/* Google Drive folder with detailed per-product documentation */
+const DOC_FOLDER_URL = 'https://drive.google.com/drive/folders/1pZmZq2nx8EirAh-SJV55qz7H8RNd3m2p?usp=drive_link';
+
 function setProgress(step) {
   dots.forEach((d, i) => {
     d.classList.remove('done', 'current');
@@ -1421,8 +1441,7 @@ function renderResult(productKey) {
   setProgress(3);
 
   const alts = Object.entries(PRODUCTS)
-    .filter(([k, v]) => v.quadrant === p.quadrant && k !== productKey)
-    .map(([k, v]) => v);
+    .filter(([k, v]) => v.quadrant === p.quadrant && k !== productKey);
 
   const style = QUAD_STYLE[p.quadrant];
 
@@ -1459,16 +1478,22 @@ function renderResult(productKey) {
           <ul>${p.nextSteps.map((s, i) => `<li>${s}</li>`).join('')}</ul>
         </div>
       </div>
-      ${alts.length ? `
-        <div class="alt-products">
-          <h4>Adjacent products in the same lens</h4>
-          <div class="alt-list">
-            ${alts.map(a => `<span class="pill"><strong>${a.abbr}</strong> · ${a.question}</span>`).join('')}
-          </div>
-        </div>` : ''}
+      <div class="alt-products">
+        <h4>Adjacent products in the same lens</h4>
+        <div class="alt-list">
+          ${alts.map(([k, a]) => `<button type="button" class="pill pill-link" data-key="${k}"><strong>${a.abbr}</strong> · ${a.question}</button>`).join('')}
+          <a class="pill pill-link" href="${DOC_FOLDER_URL}" target="_blank" rel="noopener noreferrer"><strong>Detailed Documentation</strong> · Get deeper information</a>
+        </div>
+      </div>
       <button class="restart" id="restartBtn"><svg class="icon icon-sm"><use href="#i-restart"/></svg> Start over</button>
     </div>
   `;
+  document.querySelectorAll('.alt-list .pill-link[data-key]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      renderResult(btn.dataset.key);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
   document.getElementById('restartBtn').addEventListener('click', () => {
     history = [];
     renderQuestion('start');
