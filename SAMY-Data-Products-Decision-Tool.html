@@ -327,6 +327,32 @@
     font-size: 14.5px;
     line-height: 1.55;
   }
+  .use-now {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 26px;
+    padding: 12px 22px;
+    background: var(--primary);
+    color: var(--primary-ink);
+    border: 0;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 700;
+    font-family: inherit;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(255, 93, 23, .28);
+    transition: transform .12s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .use-now:hover {
+    text-decoration: none;
+    background: #e64f0f;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(255, 93, 23, .34);
+  }
+  .use-now:active { transform: translateY(0); }
+  .use-now .icon { color: currentColor; }
+
   .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1124,6 +1150,7 @@ const PRODUCTS = {
   SBD: {
     name: "Social Benchmarking Dashboard",
     abbr: "SBD",
+    url: "https://intermate.cloud.looker.com/dashboards/58",
     quadrant: "market",
     quadrantLabel: "Market Position",
     question: "What's the realistic KPI band for this brand, country, platform?",
@@ -1180,6 +1207,7 @@ const PRODUCTS = {
   CAI: {
     name: "Competitor Analysis — Influencers",
     abbr: "CAI",
+    url: "https://maia.samy.com/utilities/competitor-analysis-influencer",
     quadrant: "influencer",
     quadrantLabel: "Influencer Landscape",
     question: "Who are the creators talking about us — and about them?",
@@ -1208,6 +1236,7 @@ const PRODUCTS = {
   SRS: {
     name: "Social Relevance Score",
     abbr: "SRS",
+    url: "https://maia.samy.com/utilities/social-relevance-score",
     quadrant: "health",
     quadrantLabel: "Brand Health & Quality",
     question: "What is our high-level, cross-platform impact score?",
@@ -1236,6 +1265,7 @@ const PRODUCTS = {
   SCL: {
     name: "Social-Community Listening",
     abbr: "SCL",
+    url: "https://app.langdock.com/chat?a=ea1c6c1e-58ac-4830-9ad5-f3b137e9dda8",
     quadrant: "health",
     quadrantLabel: "Brand Health & Quality",
     question: "What are audiences actually saying, and what do they believe?",
@@ -1264,6 +1294,7 @@ const PRODUCTS = {
   SENT: {
     name: "AI Sentiment Analysis Tool",
     abbr: "AI Sentiment",
+    url: "https://maia.samy.com/utilities/sentiment-analysis",
     quadrant: "health",
     quadrantLabel: "Brand Health & Quality",
     question: "How is this audience responding, at scale, right now?",
@@ -1292,6 +1323,7 @@ const PRODUCTS = {
   CAT: {
     name: "Campaign Analysis Tool",
     abbr: "CAT",
+    url: "https://maia.samy.com/campaigns/69ef7d969bde30bc6e4b9911/dashboard",
     quadrant: "perf",
     quadrantLabel: "Performance Tracking",
     question: "Is the campaign hitting targets — today, not next week?",
@@ -1445,6 +1477,12 @@ function renderResult(productKey) {
 
   const style = QUAD_STYLE[p.quadrant];
 
+  const useNowBtn = p.url
+    ? `<a class="use-now" href="${p.url}" target="_blank" rel="noopener noreferrer">
+         <svg class="icon icon-sm"><use href="#i-bolt"/></svg> Use now
+       </a>`
+    : '';
+
   root.innerHTML = `
     <div class="result">
       <div class="result-head">
@@ -1478,6 +1516,7 @@ function renderResult(productKey) {
           <ul>${p.nextSteps.map((s, i) => `<li>${s}</li>`).join('')}</ul>
         </div>
       </div>
+      ${useNowBtn}
       <div class="alt-products">
         <h4>Adjacent products in the same lens</h4>
         <div class="alt-list">
