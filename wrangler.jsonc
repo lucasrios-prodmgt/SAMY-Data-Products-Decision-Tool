@@ -8,5 +8,11 @@
   },
   "observability": {
     "enabled": true
-  }
+  },
+  "routes": [
+    {
+      "pattern": "tools.samy.com",
+      "custom_domain": true
+    }
+  ]
 }
